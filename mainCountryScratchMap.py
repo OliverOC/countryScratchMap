@@ -5,7 +5,7 @@ from functionLib import if_no_json_create_new, add_countries, rearrange_dict_by_
 if __name__ == "__main__":
     file_name = 'countries_visited'
     if_no_json_create_new(file_name)
-    add_country = raw_input('would you like to add a new country?:(Y or N)')
+    add_country = input('would you like to add a new country?:(Y or N)')
 
     if add_country.lower() == 'y':
         add_countries(file_name)
@@ -17,13 +17,6 @@ if __name__ == "__main__":
 
     year_from = 1996
     year_to = 2020
-    years = range(year_from, year_to + 1)
+    years = list(range(year_from, year_to + 1))
     countries_by_year_list = extract_country_by_year(rearranged_dict_name, years, include_none=True)
     plot_by_year(years, countries_by_year_list)
-
-
-
-
-
-
-

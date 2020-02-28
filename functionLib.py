@@ -34,7 +34,7 @@ def add_countries(file_name):
                     accepted = False
                     print('Error: country not recognised. '
                           'This might be due to a spelling error.')
-                    see_list = raw_input('Press ''L'' to see a list of all countries, or press ''X'' to continue...')
+                    see_list = input('Press ''L'' to see a list of all countries, or press ''X'' to continue...')
                     if see_list.lower() == 'l':
                         string_countries_list = [str(x) for x in sorted(countries_json.keys())]
                         print(string_countries_list)
@@ -42,10 +42,10 @@ def add_countries(file_name):
                         pass
                     return accepted
 
-            input_country = raw_input('What country did you visit?:')
+            input_country = input('What country did you visit?:')
             accepted_country = check_country(input_country)
 
-        input_year = raw_input('What year did you visit? (if multiple visits include list, e.g. 2010, 2016):')
+        input_year = input('What year did you visit? (if multiple visits include list, e.g. 2010, 2016):')
         split_input_years = input_year.split(',')
         split_input_years_strip = [int(i.strip()) for i in split_input_years]
         if input_country.title() in countries.keys():
@@ -57,7 +57,7 @@ def add_countries(file_name):
         with open((str(file_name)+'.json'), 'w') as f:
             json.dump(countries, f)
 
-        add_again = raw_input("Would you like to add another country?(Y or N):")
+        add_again = input("Would you like to add another country?(Y or N):")
 
         if add_again.lower() == 'y':
             add_more = True
@@ -69,8 +69,8 @@ def rearrange_dict_by_country(json_file_name, new_file_name):
     with open((str(json_file_name)+'.json'), 'r') as f:
         dictionary = json.load(f)
 
-    dictionary_values = dictionary.values()
-    dictionary_keys = dictionary.keys()
+    dictionary_values = list(dictionary.values())
+    dictionary_keys = list(dictionary.keys())
     dictionary_keys_new_list = []
     dictionary_values_new_list = []
 
@@ -96,22 +96,22 @@ def extract_country_by_year(file_name, year, include_none=False):
         countries_by_year = json.load(f)
 
     if type(year) == int:
-        if str(year) in countries_by_year.keys():
+        if str(year) in list(countries_by_year.keys()):
             output = countries_by_year[str(year)]
             return output
         else:
-            print 'no countries visited in ' + str(year)
+            print('no countries visited in ' + str(year))
 
     elif type(year) == list:
         output_countries = []
         for i in range(len(year)):
-            if str(year[i]) in countries_by_year.keys():
+            if str(year[i]) in list(countries_by_year.keys()):
                 output_countries.append(countries_by_year[str(year[i])])
             else:
                 if include_none:
                     output_countries.append('')
                 else:
-                    print 'no countries visited in ' + str(year[i])
+                    print('no countries visited in ' + str(year[i]))
         return output_countries
 
 
