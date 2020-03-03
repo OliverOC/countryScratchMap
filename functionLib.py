@@ -6,6 +6,12 @@ from collections import defaultdict
 
 
 def if_no_json_create_new(file_name):
+    """
+    This function checks whether a JSON file exists under the given file name.
+    If no JSON file exists, a new one is created.
+
+    :param file_name: Name of the JSON file to be created.
+    """
     if os.path.exists(str(file_name)+'.json'):
         pass
     else:
@@ -15,6 +21,12 @@ def if_no_json_create_new(file_name):
 
 
 def add_countries(file_name):
+    """
+    This function adds a country and the year visited into the JSON file through user input.
+
+    :param file_name: Name of the JSON file to add a country and year to.
+    """
+
     add_more = True
     while add_more:
         with open((str(file_name))+'.json', 'r') as f:
@@ -24,6 +36,14 @@ def add_countries(file_name):
         while not accepted_country:
 
             def check_country(country_to_check):
+                """
+                This function checks whether the inputted country is a real country by comparing to a JSON file
+                containing all the allowed countries in the world.
+
+                :param country_to_check: The name of the country to check
+                :return: Returns True or False
+                """
+
                 with open('country_list.json', 'r') as f2:
                     countries_json = json.load(f2)
 
@@ -48,6 +68,7 @@ def add_countries(file_name):
         input_year = input('What year did you visit? (if multiple visits include list, e.g. 2010, 2016):')
         split_input_years = input_year.split(',')
         split_input_years_strip = [int(i.strip()) for i in split_input_years]
+
         if input_country.title() in countries.keys():
             for year in range(len(split_input_years_strip)):
                 countries[input_country.title()].append(split_input_years_strip[year])
@@ -66,6 +87,13 @@ def add_countries(file_name):
 
 
 def rearrange_dict_by_country(json_file_name, new_file_name):
+    """
+    This function creates a new JSON file with the year as the key and the countries as the values.
+
+    :param json_file_name: The name of the file containing the country: years information
+    :param new_file_name: The new JSON file to be created in the format of year: countries
+    """
+
     with open((str(json_file_name)+'.json'), 'r') as f:
         dictionary = json.load(f)
 
@@ -92,6 +120,15 @@ def rearrange_dict_by_country(json_file_name, new_file_name):
 
 
 def extract_country_by_year(file_name, year, include_none=False):
+    """
+    This function allows the user to extract all the countries visited in a given year or a range of years.
+
+    :param file_name: The name of the JSON file containing the information in the year: countries format
+    :param year: year or range of years to be extracted
+    :param include_none: the returned list will append an empty string for all years where no country was visited
+    :return: A list where each element is a list of countries visited in the years corresponding to the input years
+    """
+
     with open(str(file_name)+'.json') as f:
         countries_by_year = json.load(f)
 
@@ -116,6 +153,13 @@ def extract_country_by_year(file_name, year, include_none=False):
 
 
 def plot_by_year(years, countries):
+    """
+    This function plots the number of countries visited per year.
+
+    :param years: A list of years of interest
+    :param countries: A list of the corresponding countries visited each year
+    """
+
     country_number = []
     for i in range(len(countries)):
         if countries[i] == "":
